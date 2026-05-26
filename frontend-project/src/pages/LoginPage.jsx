@@ -11,8 +11,18 @@ export default function LoginPage() {
   const submit = async (e) => {
     e.preventDefault()
     setError('')
-    setLoading(true)
     const body = Object.fromEntries(new FormData(e.target).entries())
+    
+    if (typeof body.username !== 'string' || body.username.trim() === '') {
+      setError('Username must be a valid non-empty string')
+      return
+    }
+    if (typeof body.password !== 'string' || body.password.trim() === '') {
+      setError('Password must be a valid non-empty string')
+      return
+    }
+
+    setLoading(true)
     try {
       const data = await api('/auth/login', 'POST', body)
       token.set(data.token)

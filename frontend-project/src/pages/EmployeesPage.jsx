@@ -33,29 +33,41 @@ export default function EmployeesPage() {
     const body = Object.fromEntries(form.entries())
     const nameRegex = /^[A-Za-z]{3,}$/
 
-    if (!nameRegex.test(String(body.FirstName || '').trim())) {
-      setError('First name must be at least 3 letters and contain no spaces or symbols')
+    if (typeof body.FirstName !== 'string' || !nameRegex.test(body.FirstName.trim())) {
+      setError('First name must be a string of at least 3 letters containing no spaces or symbols')
       return
     }
-    if (!nameRegex.test(String(body.LastName || '').trim())) {
-      setError('Last name must be at least 3 letters and contain no spaces or symbols')
+    if (typeof body.LastName !== 'string' || !nameRegex.test(body.LastName.trim())) {
+      setError('Last name must be a string of at least 3 letters containing no spaces or symbols')
       return
     }
-    if (!nameRegex.test(String(body.Position || '').trim())) {
-      setError('Position must be at least 3 letters and contain no spaces or symbols')
+    if (typeof body.Position !== 'string' || !nameRegex.test(body.Position.trim())) {
+      setError('Position must be a string of at least 3 letters containing no spaces or symbols')
+      return
+    }
+    if (typeof body.Address !== 'string' || body.Address.trim() === '') {
+      setError('Address must be a valid non-empty string')
+      return
+    }
+    if (typeof body.Telephone !== 'string' || !/^(072|073|078|079)\d{7}$/.test(body.Telephone)) {
+      setError('Invalid telephone number format (must start with 072, 073, 078, or 079 followed by 7 digits)')
+      return
+    }
+    if (typeof body.Gender !== 'string' || !['Male', 'Female'].includes(body.Gender)) {
+      setError('Gender must be a valid string (Male or Female)')
+      return
+    }
+    if (typeof body.DepartmentCode !== 'string' || body.DepartmentCode.trim() === '') {
+      setError('Department Code must be a valid non-empty string')
       return
     }
 
-    if (!/^(072|073|078|079)\d{7}$/.test(String(body.Telephone || ''))) {
-      setError('Invalid telephone number (Must start with 072, 073, 078, or 079 followed by 7 digits)')
-      return
-    }
     const hired = new Date(body.HiredDate)
     const now = new Date()
     const sameYear = hired.getUTCFullYear() === now.getUTCFullYear()
     const sameMonth = hired.getUTCMonth() === now.getUTCMonth()
-    if (!sameYear || !sameMonth) {
-      setError('Hired date must be in the current month and year only')
+    if (Number.isNaN(hired.getTime()) || !sameYear || !sameMonth) {
+      setError('Hired date must be a valid date in the current month and year only')
       return
     }
 
@@ -88,6 +100,47 @@ export default function EmployeesPage() {
   }
 
   const saveEdit = async () => {
+    setError('')
+    const nameRegex = /^[A-Za-z]{3,}$/
+
+    if (typeof editForm.FirstName !== 'string' || !nameRegex.test(editForm.FirstName.trim())) {
+      setError('First name must be a string of at least 3 letters containing no spaces or symbols')
+      return
+    }
+    if (typeof editForm.LastName !== 'string' || !nameRegex.test(editForm.LastName.trim())) {
+      setError('Last name must be a string of at least 3 letters containing no spaces or symbols')
+      return
+    }
+    if (typeof editForm.Position !== 'string' || !nameRegex.test(editForm.Position.trim())) {
+      setError('Position must be a string of at least 3 letters containing no spaces or symbols')
+      return
+    }
+    if (typeof editForm.Address !== 'string' || editForm.Address.trim() === '') {
+      setError('Address must be a valid non-empty string')
+      return
+    }
+    if (typeof editForm.Telephone !== 'string' || !/^(072|073|078|079)\d{7}$/.test(editForm.Telephone)) {
+      setError('Invalid telephone number format (must start with 072, 073, 078, or 079 followed by 7 digits)')
+      return
+    }
+    if (typeof editForm.Gender !== 'string' || !['Male', 'Female'].includes(editForm.Gender)) {
+      setError('Gender must be a valid string (Male or Female)')
+      return
+    }
+    if (typeof editForm.DepartmentCode !== 'string' || editForm.DepartmentCode.trim() === '') {
+      setError('Department Code must be a valid non-empty string')
+      return
+    }
+
+    const hired = new Date(editForm.HiredDate)
+    const now = new Date()
+    const sameYear = hired.getUTCFullYear() === now.getUTCFullYear()
+    const sameMonth = hired.getUTCMonth() === now.getUTCMonth()
+    if (Number.isNaN(hired.getTime()) || !sameYear || !sameMonth) {
+      setError('Hired date must be a valid date in the current month and year only')
+      return
+    }
+
     try {
       await api(`/employees/${editingId}`, 'PUT', editForm)
       setEditingId('')

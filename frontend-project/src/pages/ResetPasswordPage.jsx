@@ -12,6 +12,20 @@ export default function ResetPasswordPage() {
     e.preventDefault()
     setError('')
     const body = Object.fromEntries(new FormData(e.target).entries())
+
+    if (typeof body.username !== 'string' || body.username.trim() === '') {
+      setError('Username must be a valid non-empty string')
+      return
+    }
+    if (typeof body.newPassword !== 'string' || body.newPassword.length < 6) {
+      setError('New password must be a string of at least 6 characters')
+      return
+    }
+    if (body.newPassword !== body.confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
     setLoading(true)
     try {
       await api('/auth/reset-password', 'POST', body)

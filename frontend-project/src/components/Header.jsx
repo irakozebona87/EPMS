@@ -10,7 +10,7 @@ export default function Header({ title = 'EPMS' }) {
           </div>
           <div>
             <h1 className="font-extrabold text-base tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-              SmartPark EPMS
+              EPMS Portal
             </h1>
             <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">
               Payroll Control Center

@@ -13,7 +13,7 @@ export default function DashboardPage() {
         
         <div className="relative z-10 max-w-2xl">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 mb-4 border border-indigo-500/30">
-            SmartPark Enterprise Platform
+            EPMS Enterprise Platform
           </span>
           <h2 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-100 bg-clip-text text-transparent">
             Payroll Control Center

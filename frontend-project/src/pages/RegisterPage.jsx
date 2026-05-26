@@ -13,6 +13,18 @@ export default function RegisterPage() {
     setError('')
     const body = Object.fromEntries(new FormData(e.target).entries())
 
+    if (typeof body.fullName !== 'string' || body.fullName.trim().length < 3) {
+      setError('Full name must be a string of at least 3 characters')
+      return
+    }
+    if (typeof body.username !== 'string' || !/^[A-Za-z]+$/.test(body.username.trim())) {
+      setError('Username must contain only letters (no numbers or symbols)')
+      return
+    }
+    if (typeof body.password !== 'string' || body.password.length < 6) {
+      setError('Password must be a string of at least 6 characters')
+      return
+    }
     if (body.password !== body.confirmPassword) {
       setError('Password and confirm password do not match')
       return
@@ -91,13 +103,13 @@ export default function RegisterPage() {
             </div>
 
             {error ? (
-              <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-rose-50 border border-rose-100 text-xs font-semibold text-rose-600">
-                <svg className="w-4.5 h-4.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span>{error}</span>
-              </div>
-            ) : null}
+                <div role="alert" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm font-medium">
+                  <svg className="w-5 h-5 text-amber-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M6.938 4h10.124c1.54 0 2.502 1.667 1.732 3L13.732 20c-.77 1.333-2.694 1.333-3.464 0L3.34 7c-.77-1.333.192-3 1.732-3z" />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              ) : null}
 
             <button 
               type="submit"
