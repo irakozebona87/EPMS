@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import Layout from '../components/Layout'
 import { api, getCurrentUser } from '../api'
+import { useToast } from '../components/ToastProvider'
 
 export default function SalaryPage() {
+  const toast = useToast()
   const [employees, setEmployees] = useState([])
   const [departments, setDepartments] = useState([])
   const [salaries, setSalaries] = useState([])
@@ -91,8 +93,11 @@ export default function SalaryPage() {
       setGrossSalary('')
       setTotalDeduction('')
       await loadData()
+      toast.success('Salary saved and issued successfully')
     } catch (err) {
-      setError(err?.error || 'Salary generation failed')
+      const message = err?.error || 'Salary generation failed'
+      setError(message)
+      toast.error(message)
     } finally {
       setLoading(false)
     }

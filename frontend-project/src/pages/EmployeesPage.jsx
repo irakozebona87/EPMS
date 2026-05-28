@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
 import { api } from '../api'
+import { useToast } from '../components/ToastProvider'
 
 export default function EmployeesPage() {
+  const toast = useToast()
   const [departments, setDepartments] = useState([])
   const [employees, setEmployees] = useState([])
   const [error, setError] = useState('')
@@ -77,8 +79,11 @@ export default function EmployeesPage() {
       e.target.reset()
       setSelectedDepartmentCode('')
       await loadPageData()
+      toast.success('Employee saved successfully')
     } catch (err) {
-      setError(err?.error || 'Failed to save employee')
+      const message = err?.error || 'Failed to save employee'
+      setError(message)
+      toast.error(message)
     } finally {
       setLoading(false)
     }
@@ -146,8 +151,11 @@ export default function EmployeesPage() {
       setEditingId('')
       setEditForm({})
       await loadPageData()
+      toast.success('Employee updated successfully')
     } catch (err) {
-      setError(err?.error || 'Failed to update employee')
+      const message = err?.error || 'Failed to update employee'
+      setError(message)
+      toast.error(message)
     }
   }
 
@@ -160,8 +168,11 @@ export default function EmployeesPage() {
         setEditForm({})
       }
       await loadPageData()
+      toast.success('Employee deleted successfully')
     } catch (err) {
-      setError(err?.error || 'Failed to delete employee')
+      const message = err?.error || 'Failed to delete employee'
+      setError(message)
+      toast.error(message)
     }
   }
 

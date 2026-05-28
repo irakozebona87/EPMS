@@ -20,6 +20,12 @@ export default function Navbar() {
   return (
     <nav className="fixed top-16 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-900 shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-2.5 flex flex-wrap items-center gap-2.5">
+        <NavLink to="/" className={linkClass}>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 11.25L12 4l9 7.25M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" />
+          </svg>
+          Home
+        </NavLink>
         {loggedIn ? (
           <>
             <NavLink to="/dashboard" className={linkClass}>
